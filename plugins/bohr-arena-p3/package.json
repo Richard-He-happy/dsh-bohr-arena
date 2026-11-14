@@ -1,0 +1,33 @@
+{
+  "name": "dsh-bohr-arena-p3",
+  "version": "1.0.0",
+  "description": "玻尔产品赛第三期（学术效率）经验包：33 道题 / 4 大赛道的极简 Skill 设计法、逐题打法、云端建包流水线与评分提分策略。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "bohrium",
+    "product-arena",
+    "academic-efficiency"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "dsh-bohr-arena-p2",
+  "version": "1.0.0",
+  "description": "玻尔产品赛第二期（学术写作全流程）经验包：10 道学术写作类题目的 Skill 构建规范、逐题打法、提交与评测机制。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "bohrium",
+    "product-arena",
+    "academic-writing"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
