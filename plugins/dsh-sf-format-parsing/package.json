@@ -1,0 +1,33 @@
+{
+  "name": "dsh-sf-format-parsing",
+  "version": "1.0.0",
+  "description": "大科学装置专项赛格式解析三题经验：通用适配器生成器、L2/K3/dir-mode 加固、本地官方验收器复刻与打包 QA。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "scientific-facilities",
+    "format-parsing",
+    "adapter-generator"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

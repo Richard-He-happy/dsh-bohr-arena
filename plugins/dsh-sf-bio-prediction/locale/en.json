@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Biomedical prediction (CRISPRi and drug identity)",
+    "description": "Biomedical prediction playbook from two tasks: CRISPRi cross-cell perturbation prediction and drug identity matching, including CV, calibration, and compliance boundaries."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "dsh-sf-bio-prediction",
+  "version": "1.0.0",
+  "description": "大科学装置专项赛生物医学预测两题经验：CRISPRi 跨细胞扰动预测与跨剂量药物识别的评分口径、方法、CV 与合规边界。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "scientific-facilities",
+    "crispri",
+    "drug-identity"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

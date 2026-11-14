@@ -51,23 +51,38 @@ if (!/^[0-9a-f]{40}$/u.test(commit)) {
 const commitSeconds = Number(git('show', '-s', '--format=%ct', commit))
 const rawBase = `https://raw.githubusercontent.com/${repo.replace(/^https:\/\/github\.com\//u, '')}/${ref}/`
 
-const category = {
-  title: { en: 'Contest playbooks', zh: '比赛经验与打法' },
+const categories = {
+  'bohr-product-arena': { title: { en: 'Bohr Product Arena playbooks', zh: '玻尔产品周赛打法' } },
+  'scientific-facilities': { title: { en: 'Scientific Facilities contest playbooks', zh: '大科学装置专项赛打法' } },
 }
 const labels = {
-  writing: { title: { en: 'Academic writing', zh: '学术写作' } },
-  efficiency: { title: { en: 'Academic efficiency', zh: '学术效率' } },
-  skills: { title: { en: 'Skill authoring', zh: 'Skill 构建' } },
+  'academic-writing': { title: { en: 'Academic writing', zh: '学术写作' } },
+  'academic-efficiency': { title: { en: 'Academic efficiency', zh: '学术效率' } },
+  'format-parsing': { title: { en: 'Format parsing', zh: '科学数据格式解析' } },
+  'instrument-vision': { title: { en: 'Instrument vision & simulation', zh: '仪器视觉与模拟' } },
+  'bio-prediction': { title: { en: 'Biomedical prediction', zh: '生物医学预测' } },
+  'contest-ops': { title: { en: 'Contest operations', zh: '平台参赛作战' } },
 }
 const sortKey = { title: { en: 'Listing order', zh: '推荐顺序' }, order: 'asc' }
 
+/** Map a plugin directory to its market category and labels. */
+function classify(dir) {
+  if (dir.startsWith('dsh-bohr-arena-p2')) return { category: 'bohr-product-arena', labels: ['academic-writing'] }
+  if (dir.startsWith('dsh-bohr-arena-p3')) return { category: 'bohr-product-arena', labels: ['academic-efficiency'] }
+  if (dir.includes('format-parsing')) return { category: 'scientific-facilities', labels: ['format-parsing'] }
+  if (dir.includes('instrument-vision')) return { category: 'scientific-facilities', labels: ['instrument-vision'] }
+  if (dir.includes('bio-prediction')) return { category: 'scientific-facilities', labels: ['bio-prediction'] }
+  if (dir.includes('contest-ops')) return { category: 'scientific-facilities', labels: ['contest-ops'] }
+  return { category: 'scientific-facilities', labels: [] }
+}
+
 const pluginsDir = join(ROOT, 'plugins')
-const entries = []
 const names = (await readdir(pluginsDir, { withFileTypes: true }))
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
   .sort()
 
+const entries = []
 let order = 10
 for (const dir of names) {
   const pluginDir = join(pluginsDir, dir)
@@ -78,21 +93,17 @@ for (const dir of names) {
     () => true,
     () => false,
   )
-  const pluginLabels = []
-  const text = `${zh.title ?? ''} ${en.title ?? ''} ${zh.description ?? ''}`
-  if (/写作/.test(text)) pluginLabels.push('writing')
-  if (/效率/.test(text)) pluginLabels.push('efficiency')
-  if (/Skill/.test(text)) pluginLabels.push('skills')
+  const { category, labels: pluginLabels } = classify(dir)
   entries.push({
     name: pkg.name,
     title: { en: en.title ?? pkg.name, zh: zh.title ?? pkg.name },
     description: { en: en.description ?? pkg.description ?? '', zh: zh.description ?? pkg.description ?? '' },
     ...(hasIcon ? { icon: `${rawBase}plugins/${dir}/icon.svg` } : {}),
     author: 'Bohr Product Arena Playbook',
-    repository: { url: `${repo}`, directory: `plugins/${dir}` },
+    repository: { url: repo, directory: `plugins/${dir}` },
     metadata: {
-      category: 'contest-playbooks',
-      keywords: ['bohr', 'product-arena', 'skill', 'academic'],
+      category,
+      keywords: pkg.keywords ?? [],
       labels: pluginLabels,
       sortKeys: { order },
     },
@@ -115,15 +126,15 @@ for (const dir of names) {
 const index = {
   format: 1,
   title: {
-    en: 'Bohr Product Arena experience plugins',
-    zh: '玻尔产品赛经验插件',
+    en: 'Bohr contest experience plugins',
+    zh: '玻尔比赛经验插件',
   },
   description: {
-    en: 'Two DSH plugins that preserve the practical playbooks of the Bohr Product Arena academic writing (period 2) and academic efficiency (period 3) contests: skill blueprints, per-task playbooks, submission mechanics, cloud pipeline, and scoring strategy.',
-    zh: '两个 DSH 插件，分别沉淀玻尔产品赛第二期（学术写作全流程）与第三期（学术效率）的实操经验：Skill 构建规范、逐题打法、提交与评测机制、云端建包流水线、评分与提分策略。',
+    en: 'DSH plugins that preserve practical contest playbooks: Bohr Product Arena academic writing (period 2) and academic efficiency (period 3), plus Scientific Facilities format parsing, instrument vision/simulation, biomedical prediction, and contest operations.',
+    zh: '把玻尔产品周赛（第二期学术写作、第三期学术效率）与大科学装置专项赛（格式解析、仪器视觉与模拟、生物医学预测、平台作战）的实操经验沉淀为可分发的 DSH 插件。',
   },
   metadata: {
-    categories: { 'contest-playbooks': category },
+    categories,
     labels,
     sortKeys: { order: sortKey },
   },

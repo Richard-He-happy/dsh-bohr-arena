@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Scientific data format parsing (FMT track)",
+    "description": "Format-parser engineering playbook from three scientific data format parsing tasks: generator pipeline, hardening, local judge replication, and packaging QA."
+  }
+}

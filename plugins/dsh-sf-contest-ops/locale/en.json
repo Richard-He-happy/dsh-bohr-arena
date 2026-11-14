@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Contest operations (Scientific Facilities)",
+    "description": "Contest operations playbook: scoring identity and trace gating, submission quota and queueing, evaluation lease capacity, 24-hour schedule execution, and failure diagnosis."
+  }
+}

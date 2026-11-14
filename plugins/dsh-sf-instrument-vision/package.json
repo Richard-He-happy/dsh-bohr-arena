@@ -1,0 +1,33 @@
+{
+  "name": "dsh-sf-instrument-vision",
+  "version": "1.0.0",
+  "description": "大科学装置专项赛仪器类两题经验：FIB-SEM 视觉识别组合题与 FIBSEM 模拟器操作题的评分结构、方法与配额策略。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "scientific-facilities",
+    "fib-sem",
+    "instrument-simulator"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

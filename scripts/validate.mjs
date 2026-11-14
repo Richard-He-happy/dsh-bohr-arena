@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Static + runtime validation for the two bundled DSH plugins.
+ * Static + runtime validation for every bundled DSH plugin in this repository.
  *
- * - package.json / cordis.patch.yml / icon / locale presence
+ * - package.json / cordis.patch.yml / icon / locale / README presence
  * - host plugin loads under a mock Cordis context and registers a provider
  * - provider list()/get() work for every entry
  * - each SKILL.md has frontmatter whose name/description match the provider
@@ -18,18 +18,16 @@ import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const PLUGINS = ['bohr-arena-p2', 'bohr-arena-p3']
 const MAX_FILE_BYTES = 25 * 1024
 const MAX_SKILL_BYTES = 64 * 1024
+const MAX_PLUGIN_BYTES = 320 * 1024
 
 const failures = []
 const notes = []
 const fail = (message) => failures.push(message)
 const note = (message) => notes.push(message)
 
-function rel(path) {
-  return relative(ROOT, path).replaceAll('\\', '/')
-}
+const rel = (path) => relative(ROOT, path).replaceAll('\\', '/')
 
 async function walk(dir) {
   const out = []
@@ -55,13 +53,15 @@ function parseFrontmatter(text) {
   return { data, body: normalized.slice(end + 5) }
 }
 
-async function mockApply(pluginDir, pluginName) {
+async function mockApply(pluginDir, expectedNames) {
   const modulePath = join(pluginDir, 'lib', 'index.js')
   const module = await import(pathToFileURL(modulePath).href)
-  if (typeof module.apply !== 'function') throw new Error(`${pluginName}: lib/index.js exports no apply()`)
+  if (typeof module.apply !== 'function') throw new Error('lib/index.js exports no apply()')
   if (!Array.isArray(module.inject) || !module.inject.includes('skills'))
-    throw new Error(`${pluginName}: lib/index.js must inject ["skills"]`)
-  if (module.name !== pluginName) throw new Error(`${pluginName}: exported name "${module.name}" != "${pluginName}"`)
+    throw new Error('lib/index.js must inject ["skills"]')
+  const exportedName = module.name
+  if (!expectedNames.includes(exportedName))
+    throw new Error(`exported name "${exportedName}" should be one of ${expectedNames.join(' / ')}`)
 
   let factory
   const ctx = {
@@ -72,9 +72,8 @@ async function mockApply(pluginDir, pluginName) {
     },
   }
   module.apply(ctx)
-  if (typeof factory !== 'function') throw new Error(`${pluginName}: apply() did not register a skill provider`)
-  const control = { signal: new AbortController().signal, invalidate() {} }
-  return factory(control)
+  if (typeof factory !== 'function') throw new Error('apply() did not register a skill provider')
+  return factory({ signal: new AbortController().signal, invalidate() {} })
 }
 
 async function validatePlugin(pluginName) {
@@ -91,8 +90,8 @@ async function validatePlugin(pluginName) {
     fail(`${pluginName}: unreadable package.json (${error.message})`)
     return
   }
-  const expectedPackage = `dsh-${pluginName}`
-  if (pkg.name !== expectedPackage) fail(`${pluginName}: package.json name "${pkg.name}" != "${expectedPackage}"`)
+  if (pkg.name !== pluginName && pkg.name !== `dsh-${pluginName}`)
+    fail(`${pluginName}: package.json name "${pkg.name}" should be "${pluginName}" or "dsh-${pluginName}"`)
   if (typeof pkg.version !== 'string' || !/^\d+\.\d+\.\d+$/u.test(pkg.version))
     fail(`${pluginName}: version must be exact SemVer`)
   if (pkg.type !== 'module') fail(`${pluginName}: package.json must declare "type": "module"`)
@@ -101,10 +100,6 @@ async function validatePlugin(pluginName) {
   for (const required of ['cordis.patch.yml', 'icon.svg', 'lib/index.js', 'locale/zh.json', 'locale/en.json', 'README.md']) {
     if (!existsSync(join(pluginDir, required))) fail(`${pluginName}: missing ${required}`)
   }
-  if (!(await readFile(join(pluginDir, 'README.md'), 'utf8')).includes(pkg.name))
-    note(`${pluginName}: README does not mention the package name`)
-
-
   try {
     JSON.parse(await readFile(join(pluginDir, 'locale', 'zh.json'), 'utf8'))
     JSON.parse(await readFile(join(pluginDir, 'locale', 'en.json'), 'utf8'))
@@ -115,9 +110,10 @@ async function validatePlugin(pluginName) {
   const patch = await readFile(join(pluginDir, 'cordis.patch.yml'), 'utf8')
   if (!patch.includes(`name: '${pkg.name}'`)) fail(`${pluginName}: cordis.patch.yml does not insert ${pkg.name}`)
 
+  const expectedNames = [pluginName, pluginName.replace(/^dsh-/, '')]
   let provider
   try {
-    provider = await mockApply(pluginDir, pluginName)
+    provider = await mockApply(pluginDir, expectedNames)
   } catch (error) {
     fail(`${pluginName}: mock apply failed: ${error.message}`)
     return
@@ -149,7 +145,7 @@ async function validatePlugin(pluginName) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(candidate.name)) fail(`${label}: invalid skill name`)
     if (typeof candidate.description !== 'string' || candidate.description.trim() === '')
       fail(`${label}: empty description`)
-    if (candidate.provider !== pluginName) fail(`${label}: candidate.provider must be ${pluginName}`)
+    if (candidate.provider !== provider.name) fail(`${label}: candidate.provider must be ${provider.name}`)
     if (candidate.source !== 'bundled') fail(`${label}: candidate.source must be bundled`)
     if (!candidate.invocation?.modelInvocable || !candidate.invocation?.userInvocable)
       fail(`${label}: invocation must allow model and user`)
@@ -178,7 +174,7 @@ async function validatePlugin(pluginName) {
     if (loaded === undefined) fail(`${label}: provider.get() returned undefined`)
     else {
       if (loaded.name !== candidate.name) fail(`${label}: loaded name mismatch`)
-      if (loaded.provider !== pluginName) fail(`${label}: loaded provider mismatch`)
+      if (loaded.provider !== provider.name) fail(`${label}: loaded provider mismatch`)
       if (loaded.content.startsWith('---')) fail(`${label}: frontmatter was not stripped`)
       if (loaded.content.trim().length < 200) fail(`${label}: body too short`)
       if (loaded.resourceBase?.kind !== 'directory' || !existsSync(loaded.resourceBase.path))
@@ -200,16 +196,29 @@ async function validatePlugin(pluginName) {
       for (const match of text.matchAll(/\]\((?!https?:|mailto:|#)([^)\s]+)\)/gu)) {
         const target = decodeURIComponent(match[1].split('#')[0])
         if (target === '') continue
-        const resolved = resolve(dirname(file), target)
-        if (!resolved.startsWith(ROOT) || !existsSync(resolved)) fail(`${label}: broken relative link ${match[1]} in ${rel(file)}`)
+        const resolvedPath = resolve(dirname(file), target)
+        if (!resolvedPath.startsWith(ROOT) || !existsSync(resolvedPath))
+          fail(`${label}: broken relative link ${match[1]} in ${rel(file)}`)
       }
     }
   }
+
+  const allFiles = await walk(pluginDir)
+  let pluginBytes = 0
+  for (const file of allFiles) pluginBytes += (await stat(file)).size
+  if (pluginBytes > MAX_PLUGIN_BYTES) fail(`${pluginName}: plugin directory ${pluginBytes} bytes (> ${MAX_PLUGIN_BYTES})`)
+  note(`${pluginName}: total ${(pluginBytes / 1024).toFixed(1)} KiB`)
 }
 
-for (const plugin of PLUGINS) await validatePlugin(plugin)
+const pluginsDir = join(ROOT, 'plugins')
+const plugins = (await readdir(pluginsDir, { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort()
+if (plugins.length === 0) fail('no plugins found')
+for (const plugin of plugins) await validatePlugin(plugin)
 
 for (const line of notes) console.log(`note   ${line}`)
 for (const line of failures) console.error(`FAIL   ${line}`)
-console.log(failures.length === 0 ? `PASS: ${PLUGINS.length} plugins validated` : `${failures.length} failure(s)`)
+console.log(failures.length === 0 ? `PASS: ${plugins.length} plugins validated` : `${failures.length} failure(s)`)
 process.exit(failures.length === 0 ? 0 : 1)

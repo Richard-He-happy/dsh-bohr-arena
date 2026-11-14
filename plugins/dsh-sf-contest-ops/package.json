@@ -1,0 +1,33 @@
+{
+  "name": "dsh-sf-contest-ops",
+  "version": "1.0.0",
+  "description": "大科学装置专项赛平台作战经验：评分恒等式与 trace 门控、提交额度与评分队列、评测租约容量、24 小时赛程执行与故障诊断申诉。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "scientific-facilities",
+    "contest-ops",
+    "platform-mechanics"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
