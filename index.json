@@ -1,0 +1,122 @@
+{
+  "format": 1,
+  "title": {
+    "en": "Bohr contest experience plugins",
+    "zh": "玻尔比赛经验插件"
+  },
+  "description": {
+    "en": "DSH plugins that preserve practical contest playbooks: Bohr Product Arena academic writing (period 2) and academic efficiency (period 3), plus Scientific Facilities format parsing, instrument vision/simulation, biomedical prediction, and contest operations.",
+    "zh": "把玻尔产品周赛（第二期学术写作、第三期学术效率）与大科学装置专项赛（格式解析、仪器视觉与模拟、生物医学预测、平台作战）的实操经验沉淀为可分发的 DSH 插件。"
+  },
+  "metadata": {
+    "categories": {
+      "bohr-product-arena": {
+        "title": {
+          "en": "Bohr Product Arena playbooks",
+          "zh": "玻尔产品周赛打法"
+        }
+      },
+      "scientific-facilities": {
+        "title": {
+          "en": "Scientific Facilities contest playbooks",
+          "zh": "大科学装置专项赛打法"
+        }
+      }
+    },
+    "labels": {
+      "academic-writing": {
+        "title": {
+          "en": "Academic writing",
+          "zh": "学术写作"
+        }
+      },
+      "academic-efficiency": {
+        "title": {
+          "en": "Academic efficiency",
+          "zh": "学术效率"
+        }
+      },
+      "format-parsing": {
+        "title": {
+          "en": "Format parsing",
+          "zh": "科学数据格式解析"
+        }
+      },
+      "instrument-vision": {
+        "title": {
+          "en": "Instrument vision & simulation",
+          "zh": "仪器视觉与模拟"
+        }
+      },
+      "bio-prediction": {
+        "title": {
+          "en": "Biomedical prediction",
+          "zh": "生物医学预测"
+        }
+      },
+      "contest-ops": {
+        "title": {
+          "en": "Contest operations",
+          "zh": "平台参赛作战"
+        }
+      }
+    },
+    "sortKeys": {
+      "order": {
+        "title": {
+          "en": "Listing order",
+          "zh": "推荐顺序"
+        },
+        "order": "asc"
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "dsh-sci-agent-skills",
+      "title": {
+        "en": "Scientific Agent Skills (General)",
+        "zh": "科研 Agent 技能经验（通用）"
+      },
+      "description": {
+        "en": "Practical, real-world guidance for scientific agent work: literature reading, academic writing, scientific figures, academic presentations, plus patterns for building reliable scientific skills and cloud pipelines.",
+        "zh": "面向真实科研任务的技能经验：文献阅读、学术写作、科研图形、学术演示四大板块，以及可靠 Skill 与云端流水线的构建规范。"
+      },
+      "icon": "https://raw.githubusercontent.com/Richard-He-happy/dsh-bohr-arena/main/plugins/dsh-sci-agent-skills/icon.svg",
+      "author": "Bohr Product Arena Playbook",
+      "repository": {
+        "url": "https://github.com/Richard-He-happy/dsh-bohr-arena",
+        "directory": "plugins/dsh-sci-agent-skills"
+      },
+      "metadata": {
+        "category": "scientific-facilities",
+        "keywords": [
+          "dsh-plugin",
+          "skill",
+          "scientific-research",
+          "literature-reading",
+          "academic-writing",
+          "scientific-figures",
+          "academic-presentations",
+          "agent-skills"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "order": 10
+        }
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1794991819,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Richard-He-happy/dsh-bohr-arena",
+            "commit": "6c841bbd2d4806ead27be7bce7ce79d6092e3ff7",
+            "path": "plugins/dsh-sci-agent-skills"
+          }
+        }
+      ]
+    }
+  ]
+}

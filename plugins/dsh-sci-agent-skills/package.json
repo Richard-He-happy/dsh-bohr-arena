@@ -1,0 +1,36 @@
+{
+  "name": "dsh-sci-agent-skills",
+  "version": "1.0.0",
+  "description": "科研场景可用的 Agent 技能经验包：按文献阅读、学术写作、科研图形、学术演示四大板块整理真实工作方法，并给出构建可靠科研 Agent Skill 与云端流水线的规范。面向真实科研任务，不含竞赛得分技巧。",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "assets",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "skill",
+    "scientific-research",
+    "literature-reading",
+    "academic-writing",
+    "scientific-figures",
+    "academic-presentations",
+    "agent-skills"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
