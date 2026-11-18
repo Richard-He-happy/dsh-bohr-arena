@@ -82,10 +82,10 @@
         "en": "Practical, real-world guidance for scientific agent work: literature reading, academic writing, scientific figures, academic presentations, plus patterns for building reliable scientific skills and cloud pipelines.",
         "zh": "面向真实科研任务的技能经验：文献阅读、学术写作、科研图形、学术演示四大板块，以及可靠 Skill 与云端流水线的构建规范。"
       },
-      "icon": "https://raw.githubusercontent.com/Richard-He-happy/dsh-bohr-arena/main/plugins/dsh-sci-agent-skills/icon.svg",
+      "icon": "https://raw.githubusercontent.com/Richard-He-happy/dsh-sci-agent-skills/main/plugins/dsh-sci-agent-skills/icon.svg",
       "author": "Bohr Product Arena Playbook",
       "repository": {
-        "url": "https://github.com/Richard-He-happy/dsh-bohr-arena",
+        "url": "https://github.com/Richard-He-happy/dsh-sci-agent-skills",
         "directory": "plugins/dsh-sci-agent-skills"
       },
       "metadata": {
@@ -108,11 +108,11 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1794991912,
+          "publishTimestamp": 1794992392,
           "source": {
             "type": "git",
-            "url": "https://github.com/Richard-He-happy/dsh-bohr-arena",
-            "commit": "c1a042049b56f31218c314c77f86dcaf2cc4b12d",
+            "url": "https://github.com/Richard-He-happy/dsh-sci-agent-skills",
+            "commit": "6ded3373017b94935e5ea9e4d129c716d4ae9eea",
             "path": "plugins/dsh-sci-agent-skills"
           }
         }
