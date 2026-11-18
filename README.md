@@ -9,7 +9,7 @@
 
 | 插件 | 主题 | 技能数 |
 |---|---|---:|
-| `dsh-sci-agent-skills` | 科研 Agent 技能经验：文献阅读 / 学术写作 / 科研图形 / 学术演示 / Skill 设计 / 云端流水线 | 6 |
+| `sci-agent` | 科研 Agent 技能经验：文献阅读 / 学术写作 / 科研图形 / 学术演示 / Skill 设计 / 云端流水线 | 6 |
 
 ## 二、技能清单
 
@@ -40,9 +40,9 @@
 
 ```bash
 # 1) 克隆
-git clone https://github.com/Richard-He-happy/dsh-sci-agent-skills.git
+git clone https://github.com/Richard-He-happy/sci-agent.git
 # 2) 复制技能到 DSH 技能目录
-cp -r dsh-sci-agent-skills/plugins/dsh-sci-agent-skills/assets/skills/* "$DSH_HOME/skills/"
+cp -r sci-agent/plugins/sci-agent/assets/skills/* "$DSH_HOME/skills/"
 ```
 
 ## 五、仓库结构
@@ -51,7 +51,7 @@ cp -r dsh-sci-agent-skills/plugins/dsh-sci-agent-skills/assets/skills/* "$DSH_HO
 index.json                       # 插件市场索引（format 1）
 scripts/build-index.mjs          # 生成索引（以仓库 + 提交为参数）
 scripts/validate.mjs             # 校验插件/技能结构与命名
-plugins/dsh-sci-agent-skills/    # 公开插件
+plugins/sci-agent/    # 公开插件
   ├── package.json               # dsh.bundle.patch → cordis.patch.yml
   ├── cordis.patch.yml
   ├── lib/index.js               # 技能 provider

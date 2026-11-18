@@ -8,7 +8,7 @@
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
-const PROVIDER_NAME = 'sci-agent-skills'
+const PROVIDER_NAME = 'sci-agent'
 const RANK = 600
 const SKILLS_ROOT = new URL('../assets/skills/', import.meta.url)
 
@@ -101,7 +101,7 @@ const provider = {
 }
 
 /** Cordis plugin name; keeps the loader entry id and provider id distinct. */
-const name = 'sci-agent-skills'
+const name = 'sci-agent'
 const inject = ['skills']
 
 function apply(ctx) {
