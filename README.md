@@ -40,9 +40,9 @@
 
 ```bash
 # 1) 克隆
-git clone https://github.com/Richard-He-happy/dsh-bohr-arena.git
+git clone https://github.com/Richard-He-happy/dsh-sci-agent-skills.git
 # 2) 复制技能到 DSH 技能目录
-cp -r dsh-bohr-arena/plugins/dsh-sci-agent-skills/assets/skills/* "$DSH_HOME/skills/"
+cp -r dsh-sci-agent-skills/plugins/dsh-sci-agent-skills/assets/skills/* "$DSH_HOME/skills/"
 ```
 
 ## 五、仓库结构
