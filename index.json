@@ -108,11 +108,11 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1794991819,
+          "publishTimestamp": 1794991912,
           "source": {
             "type": "git",
             "url": "https://github.com/Richard-He-happy/dsh-bohr-arena",
-            "commit": "6c841bbd2d4806ead27be7bce7ce79d6092e3ff7",
+            "commit": "c1a042049b56f31218c314c77f86dcaf2cc4b12d",
             "path": "plugins/dsh-sci-agent-skills"
           }
         }
